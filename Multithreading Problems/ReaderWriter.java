@@ -1,14 +1,21 @@
 class Database{
     int readers;
-
+    int data=-1;
+    int i=0;
     Database(){
         this.readers=0;
     }
 
     public void read(String name){
+
         synchronized(this){
+            if(data==-1){
+                try{
+                    wait();
+                }catch(Exception e){}
+            }
             this.readers++;
-            System.out.println("\n"+name+" has started reading from Database!");
+            System.out.println("\n"+name+" read "+data+" from Database!");
         }
 
         try{
@@ -35,8 +42,9 @@ class Database{
 
             }
         }
-
-        System.out.println("\n"+name+" has started writing to Database!");
+        i++;
+        this.data=i;
+        System.out.println("\n"+name+" wrote "+data+" to Database!");
         
         try{
             Thread.sleep(1000*((int)(Math.random()*3)+1));
@@ -99,13 +107,13 @@ class ReaderWriter{
             r[i]= new Reader(d, "Reader"+(i+1));
             r[i].start();
         }
-        Writer w= new Writer(d,"Writer1");
-        w.start();
-        //Writer w[]= new Writer[2];
-        // for(int i=0;i<2;i++){
-        //     w[i]= new Writer(d, "Writer"+(i+1));
-        //     w[i].start();
-        // }
+        // Writer w= new Writer(d,"Writer1");
+        // w.start();
+        Writer w[]= new Writer[2];
+        for(int i=0;i<2;i++){
+            w[i]= new Writer(d, "Writer"+(i+1));
+             w[i].start();
+        }
 
 
     }
