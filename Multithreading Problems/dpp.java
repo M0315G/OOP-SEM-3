@@ -13,7 +13,7 @@ class fork{
             }
         }
         this.available=false;
-        System.out.println(name+" picked up fork:-"+id);
+        System.out.println(name+" picked up fork:- "+id);
         
         
     }
@@ -22,7 +22,7 @@ class fork{
         
         this.available=true;
         notifyAll();
-        System.out.println(name+" dropped frok:-"+id);
+        System.out.println(name+" dropped frok:- "+id);
     }
 }
 
